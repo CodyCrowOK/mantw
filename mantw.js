@@ -5,21 +5,34 @@ const unified = require('unified');
 const markdown = require('remark-parse');
 const man = require('remark-man');
 const {exec, spawn} = require('child_process');
-const fs = require('fs');
 
-const bookSrcDirectory = '../app/book/src';
+const bookSrcDirectoryFile = require('fs')
+  .readFileSync('book-src-directory-path.txt', 'utf8').split('\n')[0];
 
 function main () {
   if (process.argv.length < 3) return showUsage();
 
+  const shouldListMatchingFiles = process.argv.indexOf('-l') > -1;
+  if (shouldListMatchingFiles) process.argv.splice(process.argv.indexOf('-l'), 1);
+
   const searchTerm = process.argv.slice(2).join(' ');
 
-  searchForTerm(searchTerm, filename => {
+  const shouldSearch = process.argv.indexOf('-r') < 0;
+  if (!shouldSearch) process.argv.splice(process.argv.indexOf('-r'), 1);
+
+  if (!shouldSearch) {
+    const filename = process.argv[process.argv.length - 1];
+    if (!filename) return showUsage();
+
+    return showManPageForFile(filename);
+  }
+
+  searchForTerm(searchTerm, shouldListMatchingFiles, filename => {
     if (filename) showManPageForFile(filename);
   });
 }
 
-function searchForTerm(searchTerm, cb) {
+function searchForTerm(searchTerm, shouldListMatchingFiles, cb) {
   exec(`grep -irE '${searchTerm.replace(' ', '|')}' ${bookSrcDirectory}/*.md`, {maxBuffer: 1024 * 1024 * 500}, (err, stdout) => {
     if (err) {
       console.log(`No results for "${searchTerm}"`);
@@ -35,6 +48,13 @@ function searchForTerm(searchTerm, cb) {
         [filename]: acc[filename] ? acc[filename] + 1 : 1
       };
     }, {});
+
+    if (shouldListMatchingFiles) {
+      const files = Object.keys(occurrenceCounts);
+      files.sort((a, b) => occurrenceCounts[a] < occurrenceCounts[b] ? 1 : -1);
+      files.forEach(file => console.log(file + ': ', occurrenceCounts[file]));
+      return;
+    }
 
     let maxCount = 0, maxFilename;
     Object.keys(occurrenceCounts).forEach(filename => {
@@ -67,10 +87,13 @@ async function showManPageForFile (filename) {
 function showUsage () {
   const usage = [
     '',
-    'Usage:  mantw <search term>',
+    'Usage:  mantw [-l|-r] <search term>',
     '',
     'Search the Tailwind docs and show the top result as a man page',
-    ''
+    '',
+    '`mantw -l <search term>` lists all the files matching <search term>', 'with the number of occurrences',
+    '',
+    '`mantw -r <filename>` shows the man page for a specific page. (Use', ' the results from mantw -l to get a filename)'
   ].join('\n');
 
   console.log(usage);

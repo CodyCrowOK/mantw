@@ -1,0 +1,4 @@
+/Users/codycrow/tailwind/app/book/src
+
+^^ Example path to the book's src directory
+The first line of this file is read by mantw.js

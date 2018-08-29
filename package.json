@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Show Tailwind docs as man pages",
   "main": "mantw.js",
+  "bin": "mantw.js",
   "scripts": {
     "test": "node ./test"
   },
