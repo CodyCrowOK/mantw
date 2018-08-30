@@ -5,9 +5,9 @@ const unified = require('unified');
 const markdown = require('remark-parse');
 const man = require('remark-man');
 const {exec, spawn} = require('child_process');
+const fs = require('fs');
 
-const bookSrcDirectoryFile = require('fs')
-  .readFileSync('book-src-directory-path.txt', 'utf8').split('\n')[0];
+const bookSrcDirectory = fs.readFileSync(fs.realpathSync(__dirname) + '/book-src-directory-path.txt', 'utf8').split('\n')[0];
 
 function main () {
   if (process.argv.length < 3) return showUsage();
