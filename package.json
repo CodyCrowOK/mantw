@@ -15,5 +15,9 @@
     "remark-parse": "^5.0.0",
     "to-vfile": "^5.0.1",
     "unified": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodyCrowOK/mantw.git"
   }
 }
