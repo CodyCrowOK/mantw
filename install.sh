@@ -2,6 +2,6 @@
 
 read -p "Enter the full path to app/book/src: "
 
-echo "$REPLY" > test.txt
+echo "$REPLY" > book-src-directory-path.txt
 
 npm link
