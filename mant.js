@@ -87,13 +87,13 @@ async function showManPageForFile (filename) {
 function showUsage () {
   const usage = [
     '',
-    'Usage:  mantw [-l|-r] <search term>',
+    'Usage:  mant [-l|-r] <search term>',
     '',
     'Search the Tailwind docs and show the top result as a man page',
     '',
-    '`mantw -l <search term>` lists all the files matching <search term>', 'with the number of occurrences',
+    '`mant -l <search term>` lists all the files matching <search term>', 'with the number of occurrences',
     '',
-    '`mantw -r <filename>` shows the man page for a specific page. (Use', ' the results from mantw -l to get a filename)'
+    '`mant -r <filename>` shows the man page for a specific page. (Use', ' the results from mant -l to get a filename)'
   ].join('\n');
 
   console.log(usage);

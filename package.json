@@ -1,9 +1,9 @@
 {
-  "name": "mantw",
+  "name": "mant",
   "version": "1.0.0",
-  "description": "Show Tailwind docs as man pages",
-  "main": "mantw.js",
-  "bin": "mantw.js",
+  "description": "Show markdown docs as man pages",
+  "main": "mant.js",
+  "bin": "mant.js",
   "scripts": {
     "test": "node ./test"
   },
@@ -13,7 +13,7 @@
     "man-pager": "^1.0.0",
     "remark-man": "^5.1.0",
     "remark-parse": "^5.0.0",
-    "to-vfile": "^5.0.1",
+    "to-vfile": "^5.0.3",
     "unified": "^7.0.0"
   },
   "repository": {
